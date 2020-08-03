@@ -90,9 +90,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        hashed_key = self.djb2(key)
-        index = self.hash_index(hashed_key)
+        index = self.hash_index(key)
         self.storage[index] = value
+        print(self.storage)
         
 
 

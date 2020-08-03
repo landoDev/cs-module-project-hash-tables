@@ -105,6 +105,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        target = self.hash_index(key)
+        deleted = self.storage[target]
+        if deleted:
+            self.storage[target] = None
+        else:
+            print("Warning: key not found")
 
 
     def get(self, key):

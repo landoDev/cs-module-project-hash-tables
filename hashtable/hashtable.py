@@ -23,6 +23,7 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity
+        self.storage = [None] * capacity
 
 
     def get_num_slots(self):
@@ -65,10 +66,10 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
-        hash = 5381
-        for c in key:
-            hash = (hash * 33) + ord(c)
-        return hash
+        hash_value = 5381
+        for el in key:
+            hash_value = (hash_value * 33) + ord(el)
+        return hash_value
         
 
 
@@ -89,6 +90,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        hashed_key = self.djb2(key)
+        index = self.hash_index(hashed_key)
+        self.storage[index] = value
+        
+
 
 
     def delete(self, key):

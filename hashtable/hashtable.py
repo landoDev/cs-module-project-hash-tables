@@ -92,7 +92,6 @@ class HashTable:
         # Your code here
         index = self.hash_index(key)
         self.storage[index] = value
-        print(self.storage)
         
 
 

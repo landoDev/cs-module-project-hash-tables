@@ -165,7 +165,6 @@ class HashTable:
         # Your code here
         # check if load factor is to low or too high
         # if it is, call resize
-        print(self.storage)
         index = self.hash_index(key)
         # check if a name or number is stored here already
         # if so, create a linked list at that index
@@ -207,8 +206,9 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
-        result = self.storage[index].find(key)
-        print(result)
+        result = None
+        if self.storage[index]:
+            result = self.storage[index].find(key)
         return result
 
 

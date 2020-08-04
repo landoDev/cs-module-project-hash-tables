@@ -75,7 +75,7 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity
-        self.storage = [IndexChain()] * capacity
+        self.storage = [None] * capacity
 
 
     def get_num_slots(self):
@@ -174,20 +174,22 @@ class HashTable:
         """
         # Your code here
         # check if load factor is to low or too high
-        print(self.get_load_factor())
+        # print(self.get_load_factor())
         # if it is, call resize
         index = self.hash_index(key)
-        # check if a name or number is stored here already
-        # if so, create a linked list at that index
         # self.storage[index] = value
-        self.storage[index].insert_update(key, value)
-
-
+        # self.storage[index].insert_update(key, value)
+        current = self.storage[index]
+        while current is not None:
+            if current.key == key:
+                current.value = value
+                return
+            current = current.next
+        entry = HashTableEntry(key, value)
+        entry.next = current
+        self.storage[index] = entry
+        # print(self.storage[index].value, "==",entry.value)
         
-        
-
-
-
     def delete(self, key):
         """
         Remove the value stored with the given key.
@@ -218,11 +220,18 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
-        result = None
         if self.storage[index]:
-            result = self.storage[index].find(key)
-        return result
-
+            current = self.storage[index]
+            print("original current", current.key)
+            while current is not None:
+                print("current runs")
+                print(current.key, key)
+                if current.key == key:
+                    print("found key",current.key, current.value)
+                    return current.value
+                current = current.next
+        else:
+            return None
 
 
     def resize(self, new_capacity):

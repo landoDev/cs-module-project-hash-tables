@@ -7,6 +7,41 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+# Linked list to handle the chain and protect from collisions
+class IndexChain: 
+    def __init__(self):
+        self.head = None
+    def find(self, key):
+        current = self.head
+        while current:
+            pass
+            # check to see if the current key == the passed key
+            # if so, return the value of that key
+                # return current.value
+            # iterate current
+        # return current
+
+    def insert_update(self, key, value):
+        current = self.head
+        while current:
+            pass
+            # check if the key is equal to the passed key
+            # if current key == the passed key
+                # update the k/v pair
+            # iterate to the next HashTableEntry
+        # set the new hashtable entry
+        # set new entry.next to the current head
+        # set self head to the new entry
+    def delete(self, key):
+        current = self.head
+        # find the entry to delete
+        while current:
+            pass
+            # save the current.next
+            # if key == the passed key
+                # set current to none
+            # iterate current
+
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -47,6 +82,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # find items that are not none
+        # divide them by the capacity
+        # return the result
 
 
     def fnv1(self, key):
@@ -55,8 +93,17 @@ class HashTable:
 
         Implement this, and/or DJB2.
         """
-
         # Your code here
+        FNV_offset_basis = 14695981039346656037
+        FNV_prime = 1099511628211
+
+        hashed = FNV_offset_basis
+
+        string_bytes = key.encode()
+        for b in string_bytes:
+            hashed = hashed * FNV_prime
+            hashed = hashed ^ b
+        return hashed
 
 
     def djb2(self, key):
@@ -66,13 +113,23 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
-        hash_value = 5381
-        for el in key:
-            hash_value = (hash_value * 33) + ord(el)
-        return hash_value
+
+        # my original implementation
+        # needs ord()
+        # hash_value = 5381
+        # for el in key:
+        #     hash_value = (hash_value * 33) + ord(el)
+        # return hash_value
+
+        # guided code (day 2)
+        # does not need ord() 
+        hash_var = 5381
+        string_bytes = key.encode()
+        for b in string_bytes:
+            # << is called a left shift, adds x amount of 0's to the end a number
+            hash_var =((hash_var << 5) + hash_var) + b
+        return hash_var
         
-
-
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
@@ -90,7 +147,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # check if load factor is to low or too high
+        # if it is, call resize
         index = self.hash_index(key)
+        # check if a name or number is stored here already
+        # if so, create a linked list at that index
         self.storage[index] = value
         
 
@@ -105,6 +166,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # check if load factor is to low or too high
+        # if it is, call resize
         target = self.hash_index(key)
         deleted = self.storage[target]
         if deleted:

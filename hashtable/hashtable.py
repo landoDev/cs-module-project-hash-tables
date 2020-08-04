@@ -7,6 +7,9 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    def __str__(self):
+        return f'{self.value}'
+
 # Linked list to handle the chain and protect from collisions
 class IndexChain: 
     def __init__(self):
@@ -17,7 +20,7 @@ class IndexChain:
             # check to see if the current key == the passed key
             if current.key == key:
             # if so, return the value of that key
-                return current # might have to be the value
+                return current.value # might have to be the value
                 # return current.value?
             # iterate current
             current = current.next
@@ -26,7 +29,7 @@ class IndexChain:
     # handles adding a new value, updating if key exists
     def insert_update(self, key, value):
         current = self.head
-        while current:
+        while current is not None:
             # check if the key is equal to the passed key
             if current.key == key:
             # if current key == the passed key
@@ -38,9 +41,10 @@ class IndexChain:
         # set the new hashtable entry
         new_entry = HashTableEntry(key, value)
         # set new entry.next to the current head
-        new_entry.next = current
+        new_entry.next = self.head
         # set self head to the new entry
         self.head = new_entry
+
     def delete(self, key):
         current = self.head
         # find the entry to delete
@@ -70,7 +74,7 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity
-        self.storage = [None] * capacity
+        self.storage = [IndexChain()] * capacity
 
 
     def get_num_slots(self):
@@ -161,10 +165,15 @@ class HashTable:
         # Your code here
         # check if load factor is to low or too high
         # if it is, call resize
+        print(self.storage)
         index = self.hash_index(key)
         # check if a name or number is stored here already
         # if so, create a linked list at that index
-        self.storage[index] = value
+        # self.storage[index] = value
+        self.storage[index].insert_update(key, value)
+
+
+        
         
 
 
@@ -197,8 +206,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        find_index = self.hash_index(key)
-        result = self.storage[find_index]
+        index = self.hash_index(key)
+        result = self.storage[index].find(key)
+        print(result)
         return result
 
 

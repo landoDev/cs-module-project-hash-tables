@@ -186,7 +186,7 @@ class HashTable:
                 return
             current = current.next
         entry = HashTableEntry(key, value)
-        entry.next = current
+        entry.next = self.storage[index]
         self.storage[index] = entry
         # print(self.storage[index].value, "==",entry.value)
         

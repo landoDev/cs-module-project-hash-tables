@@ -14,33 +14,45 @@ class IndexChain:
     def find(self, key):
         current = self.head
         while current:
-            pass
             # check to see if the current key == the passed key
+            if current.key == key:
             # if so, return the value of that key
-                # return current.value
+                return current # might have to be the value
+                # return current.value?
             # iterate current
+            current = current.next
         # return current
-
+        return current
+    # handles adding a new value, updating if key exists
     def insert_update(self, key, value):
         current = self.head
         while current:
-            pass
             # check if the key is equal to the passed key
+            if current.key == key:
             # if current key == the passed key
                 # update the k/v pair
+                current.value = value
+                return
             # iterate to the next HashTableEntry
+            current = current.next
         # set the new hashtable entry
+        new_entry = HashTableEntry(key, value)
         # set new entry.next to the current head
+        new_entry.next = current
         # set self head to the new entry
+        self.head = new_entry
     def delete(self, key):
         current = self.head
         # find the entry to delete
         while current:
-            pass
-            # save the current.next
+            # save the current.next ?
             # if key == the passed key
+            if current.key == key:
                 # set current to none
+                current = None
+                return
             # iterate current
+            current = current.next
 
 
 # Hash table can't have fewer than this many slots

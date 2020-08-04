@@ -201,14 +201,33 @@ class HashTable:
         # Your code here
         # check if load factor is to low or too high
         # if it is, call resize
-        target = self.hash_index(key)
-        deleted = self.storage[target].find(key)
-        print(deleted)
-        if deleted:
-            self.storage[target].remove_pair(key)
+        index = self.hash_index(key)
+        if self.storage[index]is not None:
+            current = self.storage[index]
+            if current.key == key:
+                if current.next is not None:
+                    current = current.next
+                    self.storage[index] = current
+                else:
+                    self.storage[index] = None
+                return current
+            previous = current
+            current = current.next
+            while current is not None:
+                if current.key == key:
+                    previous.next = current.next
+                    current.next = None
+                    return current
+                else:
+                    previous = current
+                    current = current.next
+            return None
         else:
+        # if deleted:
+        #     self.storage[target] = None
+        # else:
             print("Warning: key not found")
-
+            return None
 
     def get(self, key):
         """
@@ -222,12 +241,8 @@ class HashTable:
         index = self.hash_index(key)
         if self.storage[index]:
             current = self.storage[index]
-            print("original current", current.key)
             while current is not None:
-                print("current runs")
-                print(current.key, key)
                 if current.key == key:
-                    print("found key",current.key, current.value)
                     return current.value
                 current = current.next
         else:

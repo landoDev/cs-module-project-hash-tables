@@ -7,8 +7,8 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
-    def __str__(self):
-        return f'{self.value}'
+    # def __str__(self):
+    #     return f'{self.value}'
 
 # Linked list to handle the chain and protect from collisions
 class IndexChain: 
@@ -20,11 +20,8 @@ class IndexChain:
             # check to see if the current key == the passed key
             if current.key == key:
             # if so, return the value of that key
-                return current.value # might have to be the value
-                # return current.value?
-            # iterate current
+                return current.value
             current = current.next
-        # return current
         return current
     # handles adding a new value, updating if key exists
     def insert_update(self, key, value):
@@ -32,11 +29,9 @@ class IndexChain:
         while current is not None:
             # check if the key is equal to the passed key
             if current.key == key:
-            # if current key == the passed key
                 # update the k/v pair
                 current.value = value
                 return
-            # iterate to the next HashTableEntry
             current = current.next
         # set the new hashtable entry
         new_entry = HashTableEntry(key, value)
@@ -45,7 +40,7 @@ class IndexChain:
         # set self head to the new entry
         self.head = new_entry
 
-    def delete(self, key):
+    def remove_pair(self, key):
         current = self.head
         # find the entry to delete
         while current:
@@ -53,9 +48,15 @@ class IndexChain:
             # if key == the passed key
             if current.key == key:
                 # set current to none
-                current = None
+                current.value = None
                 return
             # iterate current
+            current = current.next
+    def count(self):
+        current = self.head
+        count = 0
+        while current:
+            count += 1
             current = current.next
 
 
@@ -99,14 +100,23 @@ class HashTable:
         """
         # Your code here
         # find items that are not none
+        total_elements = 0
+        chain = self.capacity - 1
+
+        while chain >= 0:
+            count = self.storage[chain].count()
+            if count:
+                print("count", count)
+                total_elements += count
+            chain -= 1
         # divide them by the capacity
+        return total_elements
         # return the result
 
 
     def fnv1(self, key):
         """
         FNV-1 Hash, 64-bit
-
         Implement this, and/or DJB2.
         """
         # Your code here
@@ -164,6 +174,7 @@ class HashTable:
         """
         # Your code here
         # check if load factor is to low or too high
+        print(self.get_load_factor())
         # if it is, call resize
         index = self.hash_index(key)
         # check if a name or number is stored here already
@@ -189,9 +200,10 @@ class HashTable:
         # check if load factor is to low or too high
         # if it is, call resize
         target = self.hash_index(key)
-        deleted = self.storage[target]
+        deleted = self.storage[target].find(key)
+        print(deleted)
         if deleted:
-            self.storage[target] = None
+            self.storage[target].remove_pair(key)
         else:
             print("Warning: key not found")
 

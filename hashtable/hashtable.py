@@ -26,6 +26,7 @@ class HashTable:
         # Your code here
         self.capacity = capacity
         self.storage = [None] * capacity
+        self.count = 0
 
 
     def get_num_slots(self):
@@ -39,7 +40,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        
+        return len(self.storage)
 
 
     def get_load_factor(self):
@@ -49,19 +50,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # find items that are not none
-        total_elements = 0
-        chain = self.capacity - 1
-
-        while chain >= 0:
-            count = self.storage[chain].count()
-            if count:
-                print("count", count)
-                total_elements += count
-            chain -= 1
-        # divide them by the capacity
-        return total_elements
-        # return the result
+        return self.count / self.capacity
+        
 
 
     def fnv1(self, key):
@@ -123,12 +113,15 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        self.count += 1
         # check if load factor is to low or too high
-        # print(self.get_load_factor())
-        # if it is, call resize
+
+        load = self.get_load_factor()
+        if load > 0.7:
+            self.resize(self.capacity * 2)
         index = self.hash_index(key)
+
         # self.storage[index] = value
-        # self.storage[index].insert_update(key, value)
         current = self.storage[index]
         while current is not None:
             if current.key == key:
@@ -149,8 +142,10 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # check if load factor is to low or too high
+        self.count -= 1
+        # check if load factor is too low 
         # if it is, call resize
+        
         index = self.hash_index(key)
         if self.storage[index]is not None:
             current = self.storage[index]
@@ -207,6 +202,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        new_storage = [None] * new_capacity
+        new_count = 0
+        for entry in self.storage:
+            new_storage[new_count] = entry
+            new_count +=1
+        self.storage = new_storage
+
+
 
 
 

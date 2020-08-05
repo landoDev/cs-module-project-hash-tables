@@ -1,5 +1,13 @@
 def no_dups(s):
     # Your code here
+    word_cache = []
+    words = s.split()
+    for word in words:
+        if word not in word_cache:
+            word_cache.append(word)
+    result = " ".join(word for word in word_cache)
+    return result
+        
 
 
 

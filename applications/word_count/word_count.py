@@ -1,18 +1,17 @@
-import re
-
 def word_count(s):
     # Your code here
     word_dict = {}
     words = s.split()
+    ignore = [":", ";", ",", ".", "-", "+", "=", "/", "\\", "|", "[", "]", "{", "}", "(", ")", "*", "^", "&", "\""]
     # add each word as a key
-    ignore = '[.":;,-+=/\|[]{}()*^&]'
     for word in words:
         # before this was .isalnum which was clear of special characters but also got rid of the ' in doesn't
-        filtered = ''.join(letter for letter in word if not letter == re.match(letter,ignore))
+        filtered = ''.join(letter for letter in word if not letter in ignore)
         key_word = filtered.lower()
-        print("KEY WORD", key_word)
         # if the key exist, iterate the value of that key
-        if key_word not in word_dict:
+        if key_word == '':
+            return word_dict
+        elif key_word not in word_dict:
             word_dict[key_word] = 1
         else:
             word_dict[key_word] += 1

@@ -203,10 +203,10 @@ class HashTable:
         """
         # Your code here
         new_storage = [None] * new_capacity
-        new_count = 0
+        index = 0
         for entry in self.storage:
-            new_storage[new_count] = entry
-            new_count +=1
+            new_storage[index] = entry
+            index +=1
         self.storage = new_storage
 
 

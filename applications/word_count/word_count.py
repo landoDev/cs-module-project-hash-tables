@@ -1,6 +1,7 @@
 def word_count(s):
     # Your code here
-
+    # return a dictionary with the key being s and the value being the number of words
+    pass
 
 
 if __name__ == "__main__":

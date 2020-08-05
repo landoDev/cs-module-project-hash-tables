@@ -10,56 +10,6 @@ class HashTableEntry:
     # def __str__(self):
     #     return f'{self.value}'
 
-# Linked list to handle the chain and protect from collisions
-class IndexChain: 
-    def __init__(self):
-        self.head = None
-    def find(self, key):
-        current = self.head
-        while current:
-            # check to see if the current key == the passed key
-            if current.key == key:
-            # if so, return the value of that key
-                return current.value
-            current = current.next
-        return current
-    # handles adding a new value, updating if key exists
-    def insert_update(self, key, value):
-        current = self.head
-        while current is not None:
-            # check if the key is equal to the passed key
-            if current.key == key:
-                # update the k/v pair
-                current.value = value
-                return
-            current = current.next
-        # set the new hashtable entry
-        new_entry = HashTableEntry(key, value)
-        # set new entry.next to the current head
-        new_entry.next = self.head
-        # set self head to the new entry
-        self.head = new_entry
-
-    def remove_pair(self, key):
-        current = self.head
-        # find the entry to delete
-        while current:
-            # save the current.next ?
-            # if key == the passed key
-            if current.key == key:
-                # set current to none
-                current.value = None
-                return
-            # iterate current
-            current = current.next
-    def count(self):
-        current = self.head
-        count = 0
-        while current:
-            count += 1
-            current = current.next
-
-
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
 
